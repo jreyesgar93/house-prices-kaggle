@@ -12,7 +12,7 @@ class DataLoad(luigi.Task):
     def run(self):
         
         ## Loading YAML file with config
-        with open('credentials/credentials.yaml', 'r') as f:
+        with open('config/local/credentials.yaml', 'r') as f:
             config = yaml.safe_load(f)
             
         ## Seting environ vars
