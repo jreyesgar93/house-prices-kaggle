@@ -2,35 +2,32 @@ import luigi
 import pickle
 
 
-import os 
+import os
 import yaml
 
 
 class DataLoad(luigi.Task):
-    
-    
     def run(self):
-        
+
         ## Loading YAML file with config
-        with open('config/local/credentials.yaml', 'r') as f:
+        with open("config/local/credentials.yaml", "r") as f:
             config = yaml.safe_load(f)
-            
-        ## Seting environ vars
-        user =  config['kaggle']['username']
-        key =  config['kaggle']['key']
-        os.environ['KAGGLE_USERNAME'] = user
-        os.environ['KAGGLE_KEY'] = key
+
+        ## Setting environ vars
+        user = config["kaggle"]["username"]
+        key = config["kaggle"]["key"]
+        os.environ["KAGGLE_USERNAME"] = user
+        os.environ["KAGGLE_KEY"] = key
         
-        os.system("kaggle competitions download house-prices-advanced-regression-techniques -f train.csv --path ../data/")
-        f = self.output().open("data/train.csv","r")
+        
+        ## running command
+        os.system(
+            "kaggle competitions download house-prices-advanced-regression-techniques -f train.csv --path ../data/"
+        )
+        
+        ## Saving output
+        f = self.output().open("data/train.csv", "r")
         f.close()
-        
-        
+
     def output(self):
         return luigi.local_target.LocalTarget("data/train.csv")
-
-        
-        
-            
-        
-    
