@@ -18,14 +18,12 @@ class DataLoad(luigi.Task):
         key = config["kaggle"]["key"]
         os.environ["KAGGLE_USERNAME"] = user
         os.environ["KAGGLE_KEY"] = key
-        
-        
+
         ## running command
         os.system(
-            "kaggle competitions download house-prices-advanced-regression-techniques -f train.csv --path ../data/"
+            "kaggle competitions download house-prices-advanced-regression-techniques -f train.csv  --path data/ --force"
         )
-        
-        ## Saving output
+
         f = self.output().open("data/train.csv", "r")
         f.close()
 
