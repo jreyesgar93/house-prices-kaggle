@@ -39,4 +39,4 @@ class FeatureSelection(luigi.Task):
         output_file.close()
 
     def output(self):
-        return luigi.local_target.LocalTarget("tmp/selected_features_data.csv")
+        return luigi.local_target.LocalTarget("tmp/selected_features_data.pkl")
