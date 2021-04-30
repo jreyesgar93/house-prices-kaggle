@@ -13,34 +13,33 @@ class Prediction(luigi.Task):
 
     def requires(self):
         return ModelSelection()
+
     def run(self):
 
         model = pickle.load(open("model/selected_model.pkl", "rb"))
         selected_features = pickle.load(
             open("tmp/selected_features/selected_features_data.pkl", "rb")
         )["selected_features"]
-        
-        X_train,X_test,_,_ = pickle.load(
+
+        X_train, X_test, _, _ = pickle.load(
             open("tmp/selected_features/selected_features_data.pkl", "rb")
         )["data"]
-        
-        idx_train,idx_test = pickle.load(
+
+        idx_train, idx_test = pickle.load(
             open("tmp/selected_features/selected_features_data.pkl", "rb")
         )["id"]
-        
-        X = np.concatenate([X_train,X_test],axis=0)
-        idx_all=pd.concat([idx_train,idx_test],axis=0)
-  
-       
 
-        prediction = model.predict(X[idx_all == int(self.idx) ])[0]
-        
-                  
+        X = np.concatenate([X_train, X_test], axis=0)
+        idx_all = pd.concat([idx_train, idx_test], axis=0)
+
+        prediction = model.predict(X[idx_all == int(self.idx)])[0]
 
         g = self.output().open("w")
         g.write("ID: " + str(self.idx) + " Prediction: " + str(prediction))
         g.close()  # needed because files are atomic
 
     def output(self):
-       # return luigi.local_target.LocalTarget("predictions/prediction.txt")
-       return luigi.local_target.LocalTarget("predictions/prediction-id-"+self.idx+".txt")
+        # return luigi.local_target.LocalTarget("predictions/prediction.txt")
+        return luigi.local_target.LocalTarget(
+            "predictions/prediction-id-" + self.idx + ".txt"
+        )

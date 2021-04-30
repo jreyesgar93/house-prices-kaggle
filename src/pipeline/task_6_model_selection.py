@@ -9,8 +9,6 @@ from src.utils.model_selection import *
 
 
 class ModelSelection(luigi.Task):
-
-
     def requires(self):
         yield TrainRandomForest()
         yield TrainMLP()

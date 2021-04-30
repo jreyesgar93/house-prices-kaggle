@@ -8,7 +8,6 @@ from scipy import stats
 
 
 class Cleaning(luigi.Task):
-
     def requires(self):
         return DataLoad()
 
@@ -32,8 +31,6 @@ class Cleaning(luigi.Task):
 
         ## Saving File
         self.output = df.to_csv("tmp/clean_data/clean_data.csv", index=False)
-
-       
 
     def output(self):
         return luigi.local_target.LocalTarget("tmp/clean_data/clean_data.csv")

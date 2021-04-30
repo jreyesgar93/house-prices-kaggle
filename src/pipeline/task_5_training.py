@@ -10,7 +10,6 @@ import pickle
 
 
 class TrainRandomForest(luigi.Task):
-
     def requires(self):
         return FeatureSelection()
 
@@ -39,8 +38,6 @@ class TrainRandomForest(luigi.Task):
 
 
 class TrainMLP(luigi.Task):
-  
-
     def requires(self):
         return FeatureSelection()
 
@@ -70,7 +67,6 @@ class TrainMLP(luigi.Task):
 
 
 class TrainElasticNet(luigi.Task):
-
     def requires(self):
         return FeatureSelection()
 

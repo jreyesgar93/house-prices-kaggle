@@ -8,7 +8,6 @@ import pickle
 
 
 class Split(luigi.Task):
-
     def requires(self):
         return Cleaning()
 
@@ -19,7 +18,6 @@ class Split(luigi.Task):
         ### Selecting X Y
         y = df["saleprice"]
         X = df[df.columns[df.columns != "saleprice"]]
-        
 
         ### Spliting data
         X_train, X_test, y_train, y_test = train_test_split(
@@ -27,16 +25,19 @@ class Split(luigi.Task):
         )
         idx_train = X_train["id"]
         X_train = X_train[X_train.columns[X_train.columns != "id"]]
-        
+
         idx_test = X_test["id"]
         X_test = X_test[X_test.columns[X_test.columns != "id"]]
-        
-
-
 
         ### Saving file
         output_file = open(self.output().path, "wb")
-        pickle.dump({"datasets":[X_train, X_test, y_train, y_test],"id":[idx_train,idx_test]}, output_file)
+        pickle.dump(
+            {
+                "datasets": [X_train, X_test, y_train, y_test],
+                "id": [idx_train, idx_test],
+            },
+            output_file,
+        )
         output_file.close()
 
     def output(self):

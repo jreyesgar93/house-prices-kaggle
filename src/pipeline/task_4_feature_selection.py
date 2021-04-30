@@ -14,11 +14,12 @@ class FeatureSelection(luigi.Task):
     def run(self):
 
         X_train, X_test, y_train, y_test = pickle.load(
-            open("tmp/split_sets/split_dataset.pkl", "rb"))["datasets"]
-        
-        idx_train,idx_test = pickle.load(
-            open("tmp/split_sets/split_dataset.pkl", "rb"))["id"]
-        
+            open("tmp/split_sets/split_dataset.pkl", "rb")
+        )["datasets"]
+
+        idx_train, idx_test = pickle.load(
+            open("tmp/split_sets/split_dataset.pkl", "rb")
+        )["id"]
 
         X_names = list(X_train.columns)
         y_names = y_train.name
@@ -45,7 +46,7 @@ class FeatureSelection(luigi.Task):
                 "names": [X_names, y_names],
                 "selected_features": [selected_features],
                 "data": [X_train, X_test, y_train, y_test],
-                "id":[idx_train,idx_test]
+                "id": [idx_train, idx_test],
             },
             output_file,
         )
