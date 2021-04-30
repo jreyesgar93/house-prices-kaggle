@@ -43,8 +43,8 @@ Dentro del archivo deves colocar esta estructura:
 ---
 kaggle:
   username: "usuario"
-  key: "llave
+  key: "llave"
   
 ```
 
-"
+
