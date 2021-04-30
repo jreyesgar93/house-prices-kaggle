@@ -11,7 +11,7 @@ Este repositorio corre con Python 3.7.4
  
 ####  Clonar el repositorio, actualización del pip y generar un pyenv. 
 
-- Dentro de la instancia EC2, clonarás el repositorio:
+- Dentro de la instancia o directorio desado, clonarás el repositorio:
 
 `git clone https://github.com/jreyesgar93/house-prices-kaggle.git`
 
@@ -43,8 +43,8 @@ Dentro del archivo deves colocar esta estructura:
 ---
 kaggle:
   username: "usuario"
-  key: "llave
+  key: "llave"
   
 ```
 
-"
+
