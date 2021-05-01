@@ -39,7 +39,7 @@ Para poder descargar la base de datos, es necesario tener una cuenta con llave p
 
 - Debes tener las credenciales para poder acceder. Primero colócate dentro del directorio del repositorio con 
 ```
-cd house-price-kaggle
+cd house-prices-kaggle
 ```
 - Después coloca tus credenciales con las siguientes líneas de código en la terminal:
 ```
