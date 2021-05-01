@@ -56,7 +56,7 @@ def model_selection(scores, threshold=0.1):
             if mae <= mae_old:
                 mae_old = mae
                 best = model
-                s = pd.DataFrame({"model": best.__class__.__name__, "score": mae})
+                s = pd.DataFrame({"model": [best.__class__.__name__], "score": [mae]})
             else:
                 pass
         else:
