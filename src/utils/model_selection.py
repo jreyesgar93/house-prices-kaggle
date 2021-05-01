@@ -62,5 +62,5 @@ def model_selection(scores, threshold=0.1):
         else:
             pass
 
-    s.to_csv("tmp/metrics/scores.csv")
+    s.to_csv("tmp/metrics/score_selected.csv")
     return best
