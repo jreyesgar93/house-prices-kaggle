@@ -2,7 +2,7 @@
 
 
 
-### Instrucciones para ejecución
+### Execution 
 
 #### Versión de Python
 
@@ -24,20 +24,30 @@ Este repositorio corre con Python 3.7.4
 ```
 pyenv virtualenv 3.7.4 house-prices
 pyenv activate house-prices
-pip install -r requirements.txt
+```
+
+#### Instalar paquete 
+Una vez descargado el repositorio, realiza la instalación
+
+```
+pip install house-prices-kaggle/
 ```
 
 #### Credentials
 
 Para poder descargar la base de datos, es necesario tener una cuenta con llave privada de kaggle y haber aceptaro los términos del concurso. 
 
-- Debes tener las credenciales para poder acceder. Esto se puede hacer colocando las siguientes líneas de código en la terminal:
+- Debes tener las credenciales para poder acceder. Primero colócate dentro del directorio del repositorio con 
+```
+cd house-price-kaggle
+```
+- Después coloca tus credenciales con las siguientes líneas de código en la terminal:
 ```
 mkdir config/local
 touch config/local/credentials.yaml
 nano config/local/credentials.yaml
 ```
-Dentro del archivo deves colocar esta estructura:
+Dentro del archivo debes colocar esta estructura:
 
 ```
 ---
@@ -47,4 +57,29 @@ kaggle:
   
 ```
 
+#### Ejecución del Programa
+El programa se ejecuta desde la linea de comandos.
+
+```
+Usage: houseprices [OPTIONS]
+
+  CLI for House pricing model
+
+Options:
+  --houseid INTEGER   Input the House Id to get prediction
+  --restart [yes|no]  Restart and retrain model.
+  --help              Show this message and exit.
+
+
+```
+
+Debes colocar un comando similar al siguiente:
+
+
+```
+houseprices --houseid 12 --restart no
+
+```
+
+Si es la primera vez que ejecutas el programa la opcion `--restart` es redundante, ya que de todas formas se ejecutará el pipeline por completo. Si ya lo ejecutaste alguna vez, recomendamos seleccionar `--restart no` para obtener una prediccón mas rápida.
 
