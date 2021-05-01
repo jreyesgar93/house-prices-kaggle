@@ -1,11 +1,11 @@
 import configparser
 import pandas as pd
 import luigi
-from src.pipeline.task_1_dataload import DataLoad
-from src.utils.cleaning import *
+from pipeline.task_1_dataload import DataLoad
+from utils.cleaning import *
 from sklearn.preprocessing import OneHotEncoder
 from scipy import stats
-
+import ast
 
 class Cleaning(luigi.Task):
     def requires(self):
@@ -16,7 +16,7 @@ class Cleaning(luigi.Task):
         config = configparser.ConfigParser()
         config.read("config/public/variables.ini")
 
-        var = config["KAGGLE"]["variables"]
+        var = ast.literal_eval(config["KAGGLE"]["variables"])
 
         ##Load Dataset
         df = pd.read_csv("data/train.csv")
@@ -30,7 +30,7 @@ class Cleaning(luigi.Task):
         df = clean_df(df)
 
         ## Saving File
-        self.output = df.to_csv("tmp/clean_data/clean_data.csv", index=False)
+        df.to_csv("tmp/clean_data/clean_data.csv", index=False)
 
     def output(self):
         return luigi.local_target.LocalTarget("tmp/clean_data/clean_data.csv")

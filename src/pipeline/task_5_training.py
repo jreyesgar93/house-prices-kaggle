@@ -1,10 +1,10 @@
 import pandas as pd
 import luigi
-from src.pipeline.task_4_feature_selection import FeatureSelection
+from pipeline.task_4_feature_selection import FeatureSelection
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.neural_network import MLPRegressor
-from sklearn.linear_model import ElasticNetCV
+from sklearn.linear_model import ElasticNetCV, Lasso
 import numpy as np
 import pickle
 
@@ -50,8 +50,7 @@ class TrainMLP(luigi.Task):
         parameters = {
             "random_state": [42],
             "hidden_layer_sizes": [10, 50, 100, 200],
-            "early_stopping": [True, False],
-            "alpha": [0.001, 0.1, 0.0001],
+            "early_stopping": [False]
         }
 
         mlp = MLPRegressor()
@@ -88,3 +87,28 @@ class TrainElasticNet(luigi.Task):
 
     def output(self):
         return luigi.local_target.LocalTarget("tmp/models/model_elasticnet.pkl")
+
+
+class TrainLasso(luigi.Task):
+    def requires(self):
+        return FeatureSelection()
+
+    def run(self):
+
+        X_train, X_test, y_train, y_test = pickle.load(
+            open("tmp/selected_features/selected_features_data.pkl", "rb")
+        )["data"]
+
+        parameters = {"alpha": [0.5, 0.25, 0.75,1]}
+
+        lasso = Lasso()
+        clf = GridSearchCV(lasso, parameters)
+        clf.fit(X_train, y_train)
+
+        output_file = open(self.output().path, "wb")
+        pickle.dump({"lasso": [clf]}, output_file)
+        output_file.close()
+
+    def output(self):
+        return luigi.local_target.LocalTarget("tmp/models/model_lasso.pkl")
+

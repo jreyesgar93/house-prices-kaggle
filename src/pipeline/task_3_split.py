@@ -1,7 +1,7 @@
 import configparser
 import pandas as pd
 import luigi
-from src.pipeline.task_2_cleaning import Cleaning
+from pipeline.task_2_cleaning import Cleaning
 
 from sklearn.model_selection import train_test_split
 import pickle

@@ -1,6 +1,6 @@
 import pandas as pd
 import luigi
-from src.pipeline.task_3_split import Split
+from pipeline.task_3_split import Split
 from sklearn.feature_selection import RFECV
 from sklearn.linear_model import Ridge
 import numpy as np
@@ -12,7 +12,8 @@ class FeatureSelection(luigi.Task):
         return Split()
 
     def run(self):
-
+        
+        ##loading data
         X_train, X_test, y_train, y_test = pickle.load(
             open("tmp/split_sets/split_dataset.pkl", "rb")
         )["datasets"]
@@ -21,6 +22,7 @@ class FeatureSelection(luigi.Task):
             open("tmp/split_sets/split_dataset.pkl", "rb")
         )["id"]
 
+        ##selecting data            
         X_names = list(X_train.columns)
         y_names = y_train.name
 
@@ -28,7 +30,7 @@ class FeatureSelection(luigi.Task):
         y_train = np.array(y_train)
         X_test = np.array(X_test)
         y_test = np.array(y_test)
-
+        ## Feature Slection
         feat_selection = RFECV(Ridge(), cv=5)
         feat_selection.fit(X_train, y_train)
 
@@ -41,6 +43,7 @@ class FeatureSelection(luigi.Task):
         X_test = feat_selection.transform(X_test)
 
         output_file = open(self.output().path, "wb")
+        ## Saving
         pickle.dump(
             {
                 "names": [X_names, y_names],

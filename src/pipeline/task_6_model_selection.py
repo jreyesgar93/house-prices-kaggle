@@ -2,10 +2,10 @@ import pandas as pd
 import luigi
 import numpy as np
 import pickle
-from src.pipeline.task_5_training import TrainRandomForest, TrainMLP, TrainElasticNet
+from pipeline.task_5_training import TrainRandomForest, TrainMLP, TrainElasticNet, TrainLasso
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 
-from src.utils.model_selection import *
+from utils.model_selection import *
 
 
 class ModelSelection(luigi.Task):
@@ -13,9 +13,10 @@ class ModelSelection(luigi.Task):
         yield TrainRandomForest()
         yield TrainMLP()
         yield TrainElasticNet()
+        yield TrainLasso()
 
     def run(self):
-
+        ### Loading data
         X_train, X_test, y_train, y_test = pickle.load(
             open("tmp/selected_features/selected_features_data.pkl", "rb")
         )["data"]
@@ -26,10 +27,16 @@ class ModelSelection(luigi.Task):
         elastic_net = pickle.load(open("tmp/models/model_elasticnet.pkl", "rb"))[
             "elastic_net"
         ][0]
-
-        estimators = [random_forest, mlp, elastic_net]
+        
+        lasso = pickle.load(open("tmp/models/model_lasso.pkl", "rb"))[
+            "lasso"
+        ][0]
+        
+        
+        ## Calculating scores
+        estimators = [random_forest, mlp, elastic_net,lasso]
         scores = model_selection_scores(X_train, y_train, X_test, y_test, estimators)
-
+        ### Selecting Best
         best = model_selection(scores)
 
         best_model = scores[best]["model"]
