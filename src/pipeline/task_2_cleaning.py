@@ -7,6 +7,7 @@ from sklearn.preprocessing import OneHotEncoder
 from scipy import stats
 import ast
 
+
 class Cleaning(luigi.Task):
     def requires(self):
         return DataLoad()

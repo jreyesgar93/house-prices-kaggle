@@ -50,7 +50,7 @@ class TrainMLP(luigi.Task):
         parameters = {
             "random_state": [42],
             "hidden_layer_sizes": [10, 50, 100, 200],
-            "early_stopping": [False]
+            "early_stopping": [False],
         }
 
         mlp = MLPRegressor()
@@ -99,7 +99,7 @@ class TrainLasso(luigi.Task):
             open("tmp/selected_features/selected_features_data.pkl", "rb")
         )["data"]
 
-        parameters = {"alpha": [0.5, 0.25, 0.75,1]}
+        parameters = {"alpha": [0.5, 0.25, 0.75, 1]}
 
         lasso = Lasso()
         clf = GridSearchCV(lasso, parameters)
@@ -111,4 +111,3 @@ class TrainLasso(luigi.Task):
 
     def output(self):
         return luigi.local_target.LocalTarget("tmp/models/model_lasso.pkl")
-

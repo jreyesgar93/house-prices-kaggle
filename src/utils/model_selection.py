@@ -2,8 +2,6 @@ import pandas as pd
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 
 
-
-
 def score_model_mae(X_train, y_train, X_test, y_test, estimator, **kwargs):
     """
     Test various estimators.
@@ -39,12 +37,13 @@ def model_selection_scores(X_train, y_train, X_test, y_test, estimators, **kwarg
     for estimator in estimators:
         score.update(score_model_mae(X_train, y_train, X_test, y_test, estimator))
         print(score)
-
+    s = pd.DataFrame(score)
+    s.to_csv("tmp/metrics/scores.csv")
     return score
 
 
 def model_selection(scores, threshold=0.1):
-    """ 
+    """
     Selects the best model from all the scores
     """
     mae_old = 10000000000
@@ -57,8 +56,11 @@ def model_selection(scores, threshold=0.1):
             if mae <= mae_old:
                 mae_old = mae
                 best = model
+                s = pd.DataFrame({"model": best.__class__.__name__, "score": mae})
             else:
                 pass
         else:
             pass
+
+    s.to_csv("tmp/metrics/scores.csv")
     return best

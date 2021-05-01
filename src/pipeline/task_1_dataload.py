@@ -24,7 +24,5 @@ class DataLoad(luigi.Task):
             "kaggle competitions download house-prices-advanced-regression-techniques -f train.csv  --path data/ --force"
         )
 
-      
-
     def output(self):
         return luigi.local_target.LocalTarget("data/train.csv")
