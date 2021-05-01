@@ -2,3 +2,7 @@ config/local/
 __pycache__/
 .ipynb_checkpoints/
 tmp/
+*.plk
+*.csv
+*.txt
+*.egg-info
